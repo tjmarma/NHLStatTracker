@@ -1,0 +1,84 @@
+#IMPORTS
+import requests
+
+#FUNCTIONS
+#This is our Search Team Function which will search the API to find the stats of the chosen team
+def searchTeam(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    inforeq = input("Please enter a team name: ")
+    ##print(teams)
+    for team in teams:
+        if inforeq == team['name']:
+            print(team['name'])
+            print("Short name: " + team['shortName'])
+            print("Team Abbreviation: " + team['abbreviation'])
+            print("Stadium: " + team['venue']['name'])
+            print("City: " + team['venue']['city'])
+            print("Conference: " + team['conference']['name'])
+            print("Division: " + team['division']['name'])
+            print("First Year of Play: " + team['firstYearOfPlay'])
+            print("Team Website: " + team['officialSiteUrl'])
+    
+    
+#This is our Get Player function that searches through the API to find the player
+def getPlayer(playerid): 
+    url = "https://statsapi.web.nhl.com/api/v1/people/" + str(playerid)
+    response = requests.get(url)
+    return response.json()['people']
+    
+    
+#This is our Search Player function which will find the stats of the chosen player
+def searchPlayer(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    found = 0
+    for team in teams:
+        response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + str(team['id']) + "/roster")
+        players = response.json()['roster']
+        for player in players:
+            if inforeq == player['person']['fullName']:
+                print(player['person']['fullName'])
+                print("Number: " + player['jerseyNumber'])
+                print("Player Type: " + player['position']['type'])
+                print("Position: " + player['position']['name'])
+                playerdetail = getPlayer(player['person']['id'])
+                print("Birthdate: " + playerdetail[0]["birthDate"])
+                print("Current Age: " + str(playerdetail[0]["currentAge"]))
+                print("Birth City: " + playerdetail[0]["birthCity"])
+                print("Birth State/Province: " + playerdetail[0]["birthStateProvince"])
+                print("Birth Country: " + playerdetail[0]["birthCountry"])
+                print("Nationality: " + playerdetail[0]["nationality"])
+                print("Height: " + playerdetail[0]["height"])
+                print("Weight: " + str(playerdetail[0]["weight"]))
+                print("Active: " + str(playerdetail[0]["active"]))
+                print("Captain: " + str(playerdetail[0]["captain"]))
+                print("Alternate Captain: " + str(playerdetail[0]["alternateCaptain"]))
+                print("Rookie: " + str(playerdetail[0]["rookie"]))
+                print("Primary Hand: " + playerdetail[0]["shootsCatches"])
+                print("Current Team: " + str(playerdetail[0]["currentTeam"]["name"]))
+                
+                found = 1
+                break
+            
+    if found==0:
+        print('Unknown player: please enter a valid name.')
+        
+#
+#This is our while statement for the program to chose what you want to search
+while True:
+    querytype = input("Enter 'team' or 'player' to begin search, or 'break' to quit. ")
+
+    if querytype == "team":
+        searchTeam(inforeq)
+        
+    elif querytype == "player":
+        inforeq = input("Enter a player name: ")
+        searchPlayer(inforeq)
+        
+    elif querytype == "break":
+        break
+    else: 
+        print("Please enter team or player.")
