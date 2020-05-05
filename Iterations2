@@ -1,0 +1,154 @@
+import requests
+url = "https://records.nhl.com/static/js/client.bundle.js"
+response = requests.get(url)
+
+def team(id):
+    inforeq = input("Enter a team: ")
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    query_string = {'term' : inforeq }
+    response = requests.get(url, params = query_string)
+    print(response.url)
+    teams = response.json()
+    response.json
+
+    for team in teams['teams']:
+        print(team['venue']['name'])
+        print(team['venue']['city'])
+        print(team['division']['name'])
+team(id)
+
+
+
+import requests
+url = "https://records.nhl.com/static/js/client.bundle.js"
+response = requests.get(url)
+
+def team(id):
+    inforeq = input("Enter a team: ")
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    query_string = {'term' : inforeq }
+    response = requests.get(url, params = query_string)
+    print(response.url)
+    teams = response.json()
+    response.json
+
+    for team in teams['teams']:
+        print(team['venue']['name'])
+        print(team['venue']['city'])
+        print(team['division']['name'])
+team(id)
+
+
+
+def searchPlayer(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    found = 0
+    for team in teams:
+        response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + str(team['id']) + "/roster")
+        players = response.json()['roster']
+        for player in players:
+            if inforeq == player['person']['fullName']:
+                print(player['person']['fullName'])
+                print("Number: " + player['jerseyNumber'])
+                print("Position: " + player['position']['type'])
+                found = 1
+                break
+           
+    if found==0:
+        print('Unknown player')
+
+inforeq = input("Enter a player: ")
+searchPlayer(inforeq)
+
+def searchPlayer(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+
+    found = 0
+    for team in teams:
+        response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + str(team['id']) + "/roster")
+        players = response.json()['roster']
+        for player in players:
+            if inforeq == player['person']['fullName']:
+                print(player['person']['fullName'])
+                id = (player['person']['link'])
+                player_depth = requests.get("https://statsapi.web.nhl.com/api/v1/people/" + str(id))
+                peoples = response.json()['people']
+                for people in peoples:
+                    if inforeq == people['fullName']:
+                        print(people['firstName'])
+
+            found = 1     
+            break
+            
+    if found==0:
+        print('Unknown player')
+
+inforeq = input("Enter a player: ")
+searchPlayer(inforeq)
+
+q = True
+while q == True:
+    q = input("Answer True or False")
+    
+
+import requests
+
+
+
+def searchTeam(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    inforeq = input("Please enter a team name: ")
+    ##print(teams)
+    for team in teams:
+        if inforeq == team['name']:
+            print(team['name'])
+            print("Team Abbreviation: " + team['abbreviation'])
+            print("Stadium: " + team['venue']['name'])
+            print("City: " + team['venue']['city'])
+            print("Division: " + team['division']['name'])
+            print("First Year of Play: " + team['firstYearOfPlay'])
+            print("Team Website: " + team['officialSiteUrl'])
+            
+            player = getPlayer(getPlayer)
+            
+            
+def searchPlayer(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    found = 0
+    for team in teams:
+        response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + str(team['id']) + "/roster")
+        players = response.json()['roster']
+        for player in players:
+            if inforeq == player['person']['fullName']:
+                print(player['person']['fullName'])
+                print("Number: " + player['jerseyNumber'])
+                print("Player Type: " + player['position']['type'])
+                print("Position: " + player['position']['name'])
+                print("Primary Number: " + player['primaryNumber'])
+                found = 1
+                break
+            
+    if found==0:
+        print('Unknown player: please enter a valid name.')
+        
+while True:
+    querytype = input("Enter 'team' or 'player' to begin search, or 'break' to quit. ")
+
+    if querytype == "team":
+        searchTeam(inforeq)
+    elif querytype == "player":
+        inforeq = input("Enter a player name: ")
+        searchPlayer(inforeq)
+    elif querytype == "break":
+        break
+    else: 
+        print("Please enter team or player.")
+    
