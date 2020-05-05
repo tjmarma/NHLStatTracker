@@ -1,0 +1,17 @@
+#First version of the searchTeam function
+#def team(id):
+    inforeq = input("Enter a team: ")
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()
+    name = response.json()
+    print(response.json)
+
+    if inforeq == ['teams']['name']:
+        print(team['name'])
+        print("Stadium: " + team['venue']['name'])
+        print("City: " + team['venue']['city'])
+        print("Division: " + team['division']['name'])
+    else:
+        print('Invalid Entry')
+team(id)
