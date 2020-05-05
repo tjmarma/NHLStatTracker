@@ -1,0 +1,20 @@
+##Early working version of searchPlayer function that includes little information
+##def searchPlayer(inforeq):
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    response = requests.get(url)
+    teams = response.json()['teams']
+    found = 0
+    for team in teams:
+        response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + str(team['id']) + "/roster")
+        players = response.json()['roster']
+        for player in players:
+            if inforeq == player['person']['fullName']:
+                print(player['person']['fullName'])
+                print("Number: " + player['jerseyNumber'])
+                print("Player Type: " + player['position']['type'])
+                print("Position: " + player['position']['name'])
+                found = 1
+                break   
+
+    if found==0:
+        print('Unknown player: please enter a valid name.')
