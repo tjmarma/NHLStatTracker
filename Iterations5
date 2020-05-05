@@ -1,0 +1,13 @@
+##Early version of breaking the loop after a team is found
+    found = 0
+for team in teams:
+   response = requests.get("https://statsapi.web.nhl.com/api/v1/teams/" + team['id'] + "/roster"
+     players = response.json()['roster']
+     for player in players:
+       if inforeq == player['person']['fullName']:
+         print(player['person']['fullName'])
+         print("JerseyNumber: " + player['jerseyNumber'])
+         found = 1
+         break
+     if found==1:
+       break
