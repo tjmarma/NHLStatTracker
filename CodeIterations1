@@ -1,0 +1,18 @@
+import requests
+url = "https://records.nhl.com/static/js/client.bundle.js"
+response = requests.get(url)
+
+def team(id):
+    inforeq = input("Enter a team: ")
+    url = "https://statsapi.web.nhl.com/api/v1/teams"
+    query_string = {'term' : inforeq }
+    response = requests.get(url, params = query_string)
+    print(response.url)
+    teams = response.json()
+    response.json
+
+    for team in teams['teams']:
+        print(team['venue']['name'])
+        print(team['venue']['city'])
+        print(team['division']['name'])
+team(id)
