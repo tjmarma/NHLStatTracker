@@ -21,7 +21,7 @@ def searchTeam(inforeq):
             print("First Year of Play: " + team['firstYearOfPlay'])
             print("Team Website: " + team['officialSiteUrl'])
     
-    
+    ##test change
 #This is our Get Player function that searches through the API to find the player
 def getPlayer(playerid): 
     url = "https://statsapi.web.nhl.com/api/v1/people/" + str(playerid)
